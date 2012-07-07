@@ -104,17 +104,24 @@ class FeatureContext extends MinkContext
   {
       $this->getSession()->wait($seconds * 1000);
   }
-    /**
-     * @Given /^I disable Overlay$/
-     */
-    public function iDisableOverlay()
-    {
-    $process = new Process("drush @seven dis overlay -y");
-    $process->setTimeout(3600);
-    $process->run();
-    if (!$process->isSuccessful()) {
-      throw new RuntimeException("Couldn't disable overlay - " . $process->getErrorOutput());
-
+  /**
+   * @Given /^I disable Overlay$/
+   */
+  public function iDisableOverlay()
+  {
+  $process = new Process("drush @seven dis overlay -y");
+  $process->setTimeout(3600);
+  $process->run();
+  if (!$process->isSuccessful()) {
+    throw new RuntimeException("Couldn't disable overlay - " . $process->getErrorOutput());
     }
+  }
+  /**
+   * @Given /^I fill in "([^"]*)" with$/
+   */
+   public function iFillInWith($content, PyStringNode $paths)
+  {
+      $this->fillField($content, $paths->getRaw());
+
   }
 }

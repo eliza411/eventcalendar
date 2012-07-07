@@ -9,7 +9,6 @@ Background:
     And I fill in "Password" with "changeme"
     And I press "Log in"
 
-@javascript  
 Scenario: Enable the modules
   Given I disable Overlay
     And I am on "/"

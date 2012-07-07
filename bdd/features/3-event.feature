@@ -1,4 +1,3 @@
-@javascript
 Feature: Create a way to enter events
   In order to support content editors
   As a site administrator
@@ -16,6 +15,7 @@ Feature: Create a way to enter events
       And I follow "Add content type"                                      
       And I fill in the following:                                        
         | Name                                 | Event                                            |
+        | Machine-readable name                | event                                            |
         | Description                          | Create an event for display on the site calendar |
         | Title field label                    | Event                                            |
         | Explanation or submission guidelines | Create an event for display on the site calendar |
@@ -29,6 +29,7 @@ Feature: Create a way to enter events
   Scenario: But wait, there's no date!
     Given I am on "/admin/structure/types/manage/event/fields"
       And I fill in "edit-fields-add-new-field-label" with "Date" 
+      And I fill in "edit-fields-add-new-field-field-name" with "date"
       And I select "Date" from "edit-fields-add-new-field-type"
       And I select "Pop-up calendar" from "edit-fields-add-new-field-widget-type"
       And I press "Save"
