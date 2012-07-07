@@ -1,0 +1,10 @@
+Makefile
+_build/
+_static
+conf.py
+core
+drupal/
+index.txt
+opensourcery.png
+strip_header.py
+
