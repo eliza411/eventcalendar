@@ -1,0 +1,584 @@
+.. cssclass :: no-break
+Ingredients
+***********
+
+|sandbox-setup|
+
+Staple
+========
+#. http://drupal.org/project/ctools - Chaos Tools Suite: Enable Chaos tools
+#. http://drupal.org/project/views - Views: Enable Views and Views UI
+#. http://drupal.org/project/date - Date: Enable Date, Date API, Date Popup
+#. http://drupal.org/project/fullcalendar - FullCalendar: Enable FullCalendar, FullCalendar Colors
+#. http://drupal.org/project/colors API - Other: Enable Colors
+#. http://drupal.org/project/colorbox - Other: Enable Colorbox
+
+**Drush users:**
+
+::
+
+  drush dl ctools views date date_api fullcalendar fullcalendar_colors colors colorbox
+  drush en ctools views views_ui date date_api date_popup 
+  fullcalendar fullcalendar_colors colors colorbox -y
+
+Specialty
+=========
+
+FullCalendar JQuery Libraries
+
+#. Visit http://arshaw.com/fullcalendar
+#. Download the most recent version of the plugin.
+#. Unzip to sites/all/libraries/fullcalendar (e.g., sites/all/libraries/fullcalendar/fullcalendar.min.js).  <- Note: the fullcalendar directory is inside another fullcalendar-1.5.x. Unlike colorbox, below, you should NOT have folders nested fullcalendar/fullcalendar or fullcalendar-1.5.x/fullcalendar)
+#. Do not include the demos or jQuery directories.
+
+ColorBox Library
+
+#. Visit http://jacklmoore.com/colorbox/
+#. Download Current version
+#. Unzip straight into sites/all/libraries (e.g., sites/all/libraries/colorbox/colorbox/jquery.colorbox.js (and the other file/s.) Notice there are two directories called colorbox.
+
+**Last updated 30 April 2012** - Open Source software is constantly evolving. Visit http://training.opensourcery.com/recipes for the most current version of this recipe.
+
+Configure Region and Language Settings
+**************************************
+
+For the sake of clarity, we're going to build a calendar where everyone sees the time of an event in a single timezone. This is most appropriate for events that take place in a physical location, where users can reasonably expect that the time is displayed in the zone where the event takes place, much like airline flights. 
+
+If you primarily schedule virtual events, you might rather allow users to choose their own time zones. Once your site is production, it is disruptive to users to change these settings.
+
+We are also going to set the date formats to match the U.S. preference for am/pm time display. These preferences can be changed later and will update throughout your site. It is less disruptive to adjust formatting than to change the timezone behaviors.
+
+Regional settings
+=================
+*Configuration > Regional and language > Regional settings*
+
+Locale 
+------
+
+#. Default country: United States
+#. First day of the week: Sunday
+
+Time Zones
+----------
+
+#. Default time zone: America/Los Angeles
+#. [ ] Users may set their own timezones <- Uncheck this
+
+Date and Time
+=============
+*Configuration > Regional and language > Date and time: Types*
+
+Drupal displays the current time and date in the interface, so you'll see the same pattern with different values.
+
+#. Long: Monday, April 30, 2012 - 9:24am
+#. Medium: April 30, 2012 - 9:24am 
+#. Short: 30 Apr 2012 - 9:24am
+#. Save configuration
+
+Add a new date format
+=====================
+*Configuration > Regional and language > Date and time: Formats*
+
+We're going to add a format that doesn't display the time for use in a block that we'll create later. 
+
+#. Be sure you've chosen the Formats tab in the upper-right
+#. +Add format
+#. Format string: d M Y
+#. Add format <- Click the button to save
+#. Move to the Types tab <-upper right
+#. +Add date type
+#. Date type: Block-date <- this is just a label, you can choose any convention you like.
+#. Date format: 30 Apr 2012 <- This appears at the bottom of the select list
+
+.. container:: tip
+
+   Note: If you make a mistake with the format but don't notice until later, you can edit a date format by returning to *Configuration > Regional and Language: Date and Time > Formats* and clicking the edit link for the format in question. Unfortuantely this will cause the format to be unassigned from its Date type. Visit the Types tab and re-select the format from the dropdown list. If you forget this last step, the date field won't be automatically updated throughout your site.
+
+Build a way to create events
+****************************
+Add a new content type called Event
+===================================
+*Structure > Content types > +Add new content type*
+
+#. Name: Event
+
+#. Description: Create an event for display on the site calendar
+
+#. Each word on the left is the label for a vertical tab. Click it and change the settings to match the table below:
+  ============================ =======================================
+  Submission Form Settings     Title field label: Event
+  Publishing Options           [√] Published <- uncheck others
+  Display Settings             [ ] Display author and date information 
+  Comment Settings             Closed  <- Select from the first dropdown
+  Menu Settings                [ ] <- Uncheck all menus
+  ============================ =======================================
+
+4. Save and add fields
+
+Add a date field
+================
+You will not have a choice of a Date field if you have not installed Date and Date API. Date fields are *not* a part of Drupal core.
+
+
+Add new field
+-------------
+*Structure > Content types > Event: Manage fields*
+
+
+#. Label: Date
+#. Field name (a-z, 0-9, _): date
+#. Type of data to store: Date <- plain Date, not the ISO or Unix format
+#. Form element to edit the data: Pop-up calendar
+#. Save
+
+Field Settings
+--------------
+
+Accept all default field settings EXCEPT the following:
+
+#. [√] Collect an end date <- Check this
+#. Save field settings
+
+Event Settings
+--------------
+
+Accept all default field settings EXCEPT:
+
+#. [√] Required field <- Check this
+#. Save settings
+
+
+Rearrange the items 
+===================
+*Structure > Content types > Event > Manage fields*
+
+Use the grabber to drag and drop the fields into order:
+
+#. Event name
+#. Date
+#. Body
+#. URL path settings <- This appears only when the Pathauto module is installed.
+#. Save
+
+Create proper paths
+===================
+*Configuration > Search and Metadata: URL aliases > Patterns*
+
+Later on, we'll be creating a landing page at /calendar, so we're adding that to the path now.
+
+#. Pattern for all Event paths: calendar/[node:title]
+#. Save configuration
+
+Create test events
+==================
+*Content > +Add content*
+
+#. Add an event scheduled for today called Training
+#. Check that the path is as you expected, e.g. yoursite.sandbox.opensourcery.com/**calendar/training**
+#. Add an event scheduled for the previous calendar month called Staff
+meeting
+#. Add an event scheduled for next month called Department meetings
+
+Create the calendar
+*******************
+
+Add a calendar view
+===================
+*Structure > Views > +Add new view*
+
+Intro Screen
+------------
+
+#. View name: Calendar 
+#. Show Content of type Event sorted by Unsorted
+#. [√] Create a page
+#. Page title: Calendar
+#. Path: calendar
+#. Display format: FullCalendar
+#. Items to display: <- Delete the value here
+#. [ ] Use pager
+#. [√] Create menu link
+#. Menu: Main menu
+#. Link text: Event calendar
+#. [√] Include an RSS feed
+#. Feed path: calendar.xml
+#. Continue & edit
+ 
+.. container:: note_error
+
+   You'll see an error message as soon as you've clicked Continue & edit. You have to add the Date field from your event to the view for the calendar to function.
+
+Fields
+------
+
+#. add
+#. For: All displays
+#. [√] Content: Date 
+#. Apply (all displays)
+#. [ ] Create a label <- Uncheck this
+#. No matter what date format you choose here, FullCalendar is going to override it, so accept the defaults and don't change anything in the collapsed field groups. 
+#. Apply (All displays)
+#. Don't forget to save the view!
+
+Note: Although you've already added the Date field, currently that message perisists. Make a mental note to be sure that the dates are showing up.
+
+Create and place an Upcoming events block
+*****************************************
+
+We'll create an Upcoming events block for the front page and our calendar pages. We could build this in the same view as the calendar, but since it's substantially different, we'll create it in its own view.
+
+Create the block
+================
+*Structure > Views > +Add new view*
+ 
+Intro Screen
+------------
+#. View name: Upcoming events
+#. Show Content of type Event sorted by Unsorted <- Choosing Newest first here would sort by when the Event node was created, not when the event was scheduled.
+#. [ ] Create a page
+#. [√] Create a block
+#. Display fomat: HTML list of fields
+#. Items per page: 5
+#. Continue & Edit
+ 
+Fields
+------
+
+Add the date field
+^^^^^^^^^^^^^^^^^^
+
+#. add
+#. For All displays
+#. Content: Date
+#. Apply (all displays)
+#. [ ] Create a label <- Uncheck this
+#. Formatter: Date and time
+#. Choose how users view dates and times: Block-date
+#. Display: Both Start and End dates
+#. Don't change anything in the collapsed field groups.
+#. Apply (All displays)
+
+.. cssclass :: page-break
+
+Filter Criteria
+---------------
+
+Filter to future dates
+^^^^^^^^^^^^^^^^^^^^^^
+
+I filter on the date an event ends so that it remains visible while it's happening, allowing users to reference directions or other information quickly. You might choose to filter by the Start date if it better suits your needs.
+
+#. add
+#. For All displays
+#. Content: Date - end date (field_date:value2)
+#. Apply (all displays)
+#. Apply & continue
+
+Configure extra settings for filter criterion
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. Leave as is; these will be overridden in the next step
+#. Apply & continue
+
+Configure filter criterion
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+#. Operator: Is greater than or equal to
+#. Enter a relative date <- Choose from the dropdown that says Select a Date
+#. Relative date: now
+#. Apply (all displays)
+
+
+Sort Criteria
+-------------
+
+Sort by the date of the event
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. add
+#. For All displays
+#. Content: Date start date (field_date)
+#. Apply (all displays)
+#. (*) Sort ascending <- default
+#. Apply (all displays)
+#. Don't forget to save the view, too!
+ 
+Place the block
+===============
+*Structure > Blocks > Views: Upcoming Event > Configure*
+
+#. Block title: Upcoming events
+#. Region Settings: Bartik (default theme): Sidebar Second
+#. Set visibility:
+
+  +----------------------------------------------------+
+  |Visibility Settings                                 |
+  +=================+==================================+
+  |Pages            | (*) Only the listed pages        | 
+  |                 |                                  |
+  |                 | <front>                          |
+  |                 |                                  | 
+  |                 | calendar/*                       |
+  +-----------------+----------------------------------+
+  | Content types   |  (Leave as is)                   |
+  +-----------------+----------------------------------+
+  |Roles            |  (Leave as is)                   |
+  +-----------------+----------------------------------+
+  |Users            |  (Leave as is)                   |
+  +-----------------+----------------------------------+
+
+4. Save block                           
+
+Categorize events by terms
+**************************
+
+Create the vocabulary and add terms to it
+=========================================
+*Structure > Taxonomy > +Add vocabulary*
+
+Add the vocabulary
+------------------
+#. Name: Event Type
+#. Description: Categorize events by type.
+
+Add terms to the Event Type vocabulary
+--------------------------------------
+
+#. Event Type: add terms
+#. Name: Public
+#. Description: These events are open to the public
+#. Save <- we're accepting the defaults
+#. Name: Staff Meeting
+#. Description: These meetings are required meetings for all staff.
+#. Save <- we're accepting the defaults
+#. Return to *Structure > Taxonomy* and click list terms to review or reorder. <- optional
+
+Add the term to the Event content type
+======================================
+*Structure > Content Types > Event > Manage Fields*
+ 
+Add new field
+-------------
+
+#. Label: Add new field: Event type
+#. Name: field_event_type
+#. Field: Term reference
+#. Widget: Select List
+#. Save
+#. Vocabulary: Event Types
+#. Save field settings
+#. Accept all the defaults
+#. Save settings
+#. Drag the Event Type term beneath the Event name.
+#. Save
+
+Create and tag events
+=====================
+*Content > +Add Content*
+
+#. Create an event in the current month tagged Public
+#. Create an event in the current month tagged Staff Meeting
+#. Create an event in the current month and don't tag it.
+
+Color code events
+=================
+*Configuration > User Interface > Colors*
+
+You can color code your events by Node Type, Taxonomy, or User Role.
+
+Set the default color
+---------------------
+
+#. Default color: #3b35da
+#. Save settings
+
+Set the colors for the taxonomy terms
+-------------------------------------
+
+#. Expand Event Type
+#. [√] Enable this vocabulary
+#. Public: #255b27
+#. Staff Meeting: #ef8c58
+#. Save configuration
+
+Note: Once you've set the default color, you can change it on the Settings tab, but it doesn't appear to change the default. To work around this, you can visit the Node tab, enable colors for the node types, and set your color there. 
+
+Create filters based on your categories
+***************************************
+
+There are several ways to maintain a master calendar and then filter it so that you show only certain events.
+
+First, we'll add a filter to the main calendar so users can choose what to see.
+
+Add dropdown filter to the existing calendar
+============================================
+*Structure > Views*
+
+Exposed filters are a great way to help users navigate complex calendars. 
+
+#. Locate your calendar on the main views page and click edit (or use the contextual links while viewing it to edit.)
+
+Format
+^^^^^^^
+
+Because of a bug we'll discuss later, we're going to disable dragging and dropping appointments; that functionality won't work on a display with the exposedfilters we're about to add.
+
+#. For: This page (override)
+#. FullCalendar | Settings <- Click Settings
+#. Style Settings <- expand this
+#. [√] Prevent editing events via drag-and-drop <- Check this
+#. Apply: (this display)
+
+Filter Criteria
+^^^^^^^^^^^^^^^
+
+#. add
+#. For: This page (override)
+#. [√] Content: Has taxonomy term
+#. Apply (this display)
+#. (*) Vocabulary: Event type
+#. Selection type (*) Autocomplete
+#. Apply and continue
+#. [√] Expose this filter to visitors, to allow them to change it
+#. Label: Choose a category
+#. Apply (this display)
+
+Create a pre-filtered option
+============================
+
+We're going to filter the calendar so that it only shows one kind of event and the user cannot change this. Organizations with complex structures  may prefer to shield their users from the selection process and choose instead to place these calendars in specific areas.
+
+Page details
+------------
+#. Click the arrow to the right of view page.
+#. Choose clone page
+#. Display name: Filtered Page
+#. Apply
+
+Page settings
+--------------
+#. Click calendar
+#. calendar/%
+#. Apply
+
+Advanced: Contextual Filters
+----------------------------
+#. add
+#. For: This page (override)
+#. [√] Content: Has taxonomy term ID
+#. Apply (this display)
+#. When the filter value is NOT in the URL: (*) Provide default value
+#. Type: Taxonomy term ID from URL <- Choose from the select list that says Fixed Value
+#. [ ] Load default filter from term page <- Uncheck this
+#. Add (this display)
+
+.. container:: question
+
+   **Why create a second display?**
+   
+   You might wonder why we've created a second display instead of just adding the contextual filter to the first Page display and putting the % wildcard at the end of its Path.
+
+   The wildcard prevents putting the calendar directly on the menu, so we had a choice. We could add all of the calendar links to the menu manually and create a single display, or we can create the main display and duplicate it. I chose the second because I wanted the main calendar view to contain a drop down filter that I did not want to place on the other views. 
+
+ 
+Add our filtered views to the main menu
+=======================================
+*Structure > Menus > Main Menu > add link*
+
+Because we're working with a simple test site, we'll add menu entries for our event types to the main menu. If you need to verify the taxonomy id of a term you can got to Structure > Taxonomy > Event Types: list terms. The Term ID is visible in the URL of the edit link (taxonomy/term/#)
+
+#. Menu link title: Public Events 
+#. Path: calendar/1
+#. Save
+#. +Add link
+#. Menu link title: Staff Meetings
+#. Path: calendar/2
+#. Save
+
+**Using terms vs. term names in paths:** Term names are better, really, because they're more memorable. If the name is changed, however, then all the links using the name have to be updated or redirects must be put into place.
+
+Enable Drag and Drop Scheduling: OPTIONAL
+*****************************************
+
+One of the great features of FullCalendar is that you can drag and drop your events to schedule them for other days or times. Unfortunately, a bug that prevents you from using both exposed filters and drag-and-drop scheduling at the same time on a single view display.
+
+It is possible to have both features. For example, in the main calendar display which as the exposed filters, we've disabled drag-and-drop. 
+
+We can enable the drag-and-drop on the pre-filtered calendar. Does it make sense? Probably not in most use cases, but it's worth exploring to illustrate how different two displays in the same view can be as well as an option that could, depending on how you architect a site, allow you the best of both worlds.
+
+*Structure > Views > Calendar: edit*
+
+Format
+^^^^^^^
+#. For: This page (override)
+#. FullCalendar | Settings <- Click Settings
+#. Style Settings <- expand this
+#. [ ] Prevent editing events via drag-and-drop <- Uncheck this
+#. Apply: (this display)
+
+Advanced: Other
+---------------
+
+Use AJAX
+^^^^^^^^
+#. Click No
+#. For: All displays
+#. (*) Yes
+#. Apply (all displays)
+
+.. container:: important-tip
+
+   For the drag-and-drop functionality to work when you switch pages, you MUST expancd the Advanced fieldgroup and set Ajax to Yes. If you don't, you can drag and drop, but the changes will NOT be saved when you navigate away from the page, despite what the messages say.
+   
+Add a legend
+============
+
+
+Set and test permissions
+************************
+*People > Permissions*
+
+If you are not using the Test Kitchen Install Profile or if you are new to the idea of users, roles, permissions or masquerade, see http://training.opensourcery.com/sandbox/setup
+
+Set permissions
+===============
+
+Set permissions as follows:
+
+
+============================= =========== ====== =============
+Permission                    Contributor Editor Administrator
+============================= =========== ====== =============
+Event: Create new content     [√]         [√]    [√]
+Event: Edit own content       [√]         [ ]    [√]
+Event: Edit any content       [ ]         [√]    [√]
+Event: Delete own content     [√]         [ ]    [√]  
+Event: Delete any content     [ ]         [√]    [√]
+============================= =========== ====== =============
+
+Test Author privileges
+======================
+
+Masquerade as Test Author and ensure you CAN:
+
+#. Create an Event
+#. Edit that Event
+#. Delete that Event
+
+Ensure you CANNOT:
+
+#. Edit events you didn’t create
+#. Delete events you didn’t create
+
+When you’re done, remember to Switch back
+
+Test Editor privileges
+======================
+
+Masquerade as Test Editor and ensure you CAN:
+
+#. Create an Event
+#. Edit that Event
+#. Delete that Event
+
+#. Edit an Event you didn’t create
+#. Delete an Event you didn’t create
