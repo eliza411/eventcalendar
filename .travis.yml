@@ -1,0 +1,10 @@
+php:
+  - 5.3
+  - 5.4
+before_script: 
+  - git clone git://github.com/eliza411/eventcalendar.git
+  - curl -s http://getcomposer.org/composer.phar
+  - php composer.phar install
+  - cd bdd
+script:
+  bin/behat
