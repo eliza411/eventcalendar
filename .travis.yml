@@ -1,9 +1,15 @@
 language: php
 php:
   - 5.3
+mysql:
+  database: mydb
+  username: mydb
+  encoding: utf8
+
 before_script: 
   - cd bdd
   - pear channel-discover pear.drush.org
   - sudo pear install drush/drush
   - drush make eventcalendar.make drupal
+
 script: php behat.phar 
