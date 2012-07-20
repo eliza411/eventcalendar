@@ -3,6 +3,4 @@ php:
   - 5.3
 before_script: 
   - cd bdd
-  - curl -s http://getcomposer.org/installer | php -- --quiet
-  - php composer.phar install
-script: bin/behat
+script: php behat.phar 
