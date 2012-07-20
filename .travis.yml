@@ -3,9 +3,7 @@ php:
   - 5.3
 before_script: 
   - git clone git://github.com/eliza411/eventcalendar.git events
-  - pwd
-  - cd events/bdd
-  - pwd
+  - cd events
   - curl -s http://getcomposer.org/composer.phar
   - php composer.phar install
 script:
