@@ -1,10 +1,9 @@
 php:
   - 5.3
-#  - 5.4
 before_script: 
+  - sudo apt-get install php5-cli
   - git clone git://github.com/eliza411/eventcalendar.git events
   - cd events/bdd
-  - sudo apt-get install php5-cli
   - curl -s http://getcomposer.org/composer.phar
   - php composer.phar install
 script:
