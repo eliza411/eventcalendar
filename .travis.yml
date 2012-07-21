@@ -9,8 +9,9 @@ mysql:
 before_script: 
   - cd bdd
   - pear channel-discover pear.drush.org
-  - sudo pear install drush/drush
+  - pear install drush/drush
   - phpenv rehash
-  - /usr/bin/drush make event_calendar.make drupal
+  - cd ..
+  - drush make event_calendar.make drupal
 
-script: php behat.phar 
+script: drush status
