@@ -8,6 +8,11 @@ mysql:
   encoding: utf8
 
 before_script:
+  - pear channel-discover pear.drush.org
+  - pear install drush/drush
+  - phpenv rehash
+  - cd ..
+  - drush make event_calendar.make web 
   - sudo apt-get install apache2
   - sudo a2enmod actions
   - sudo a2enmod rewrite
@@ -16,10 +21,5 @@ before_script:
   - echo "$(curl -fsSL https://raw.github.com/gist/2eb301570ed4a1f4c33d/gistfile1.txt)" | sed -e "s,PATH,`pwd`/web,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo service apache2 restart
   - cd bdd
-  - pear channel-discover pear.drush.org
-  - pear install drush/drush
-  - phpenv rehash
-  - cd ..
-  - drush make event_calendar.make drupal
 
 script: bin/behat
