@@ -8,7 +8,9 @@ mysql:
 
 before_script: 
   - cd bdd
-  - sudo apt-get install drush
-  - drush make event_calendar.make drupal
+  - pear channel-discover pear.drush.org
+  - sudo pear install drush/drush
+  - phpenv rehash
+  - /usr/bin/drush make event_calendar.make drupal
 
 script: php behat.phar 
