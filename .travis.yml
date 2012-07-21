@@ -8,7 +8,6 @@ mysql:
 
 before_script: 
   - cd bdd
-  - pear channel-discover pear.drush.org
   - sudo apt-get install drush
   - drush make event_calendar.make drupal
 
