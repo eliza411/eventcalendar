@@ -7,7 +7,7 @@ mysql:
   username: mydb
   encoding: utf8
 
-before-script:
+before_script:
   - sudo apt-get install apache2
   - sudo a2enmod actions
   - sudo a2enmod rewrite
