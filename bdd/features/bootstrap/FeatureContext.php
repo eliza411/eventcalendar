@@ -11,8 +11,8 @@ use Behat\Gherkin\Node\PyStringNode,
 use Symfony\Component\Process\Process;
 
 #require 'vendor/autoload.php';
-require_once 'PHPUnit/Autoload.php';
-require_once 'PHPUnit/Framework/Assert/Functions.php';
+#require_once 'PHPUnit/Autoload.php';
+#require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 class FeatureContext extends MinkContext
 {
@@ -26,7 +26,7 @@ class FeatureContext extends MinkContext
 
 
     /**
-    * @Given /^I am on the homepage$/
+    * @Given /^(?:|that) I am on the homepage$/
     */
     public function iAmOnTheHomepage() {
       $this->getSession()->visit($this->locatePath('/'));
@@ -66,9 +66,9 @@ class FeatureContext extends MinkContext
   }
 
   /**
-   * @Given /^Database "([^"]*)" is empty$/
+   * @Given /^an empty database (?:named|called) "([^"]*)"$/
    */
-  public function databaseIsEmpty($database_name)
+  public function anEmptyDatabaseNamed($database_name)
   {
     $process = new Process("mysqladmin drop -f $database_name && mysqladmin create $database_name");
     $process->setTimeout(3600);
@@ -79,9 +79,9 @@ class FeatureContext extends MinkContext
   }
 
   /**
-   * @Given /^Clean settings file$/
+   * @Given /^a clean settings file$/
    */
-  public function cleanSettingsFile()
+  public function aCleanSettingsFile()
   {
     $process = new Process("cp ../drupal/sites/default/default.settings.php ../drupal/sites/default/settings.php");
     $process->setTimeout(3600);
