@@ -14,4 +14,4 @@ before_script:
   - cd ..
   - drush make event_calendar.make drupal
 
-script: drush status
+script: bin/behat
