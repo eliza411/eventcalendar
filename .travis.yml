@@ -8,7 +8,7 @@ mysql:
   encoding: utf8
 
 before_script:
-  - curl http://ftp.drupal.org/files/projects/drush-7.x-5.4.tar.gz | tar svf -  
+  - curl http://ftp.drupal.org/files/projects/drush-7.x-5.4.tar.gz | tar xzf -  
   - drush/drush make event_calendar.make web 
   - sudo apt-get install apache2
   - sudo a2enmod actions
