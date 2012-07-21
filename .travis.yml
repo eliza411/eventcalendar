@@ -8,11 +8,8 @@ mysql:
   encoding: utf8
 
 before_script:
-  - pear channel-discover pear.drush.org
-  - pear install drush/drush
-  - phpenv rehash
-  - cd ..
-  - drush make event_calendar.make web 
+  - curl http://ftp.drupal.org/files/projects/drush-7.x-5.4.tar.gz | tar svf -  
+  - drush/drush make event_calendar.make web 
   - sudo apt-get install apache2
   - sudo a2enmod actions
   - sudo a2enmod rewrite
