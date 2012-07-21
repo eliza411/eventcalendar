@@ -2,7 +2,7 @@
         ServerAdmin webmaster@localhost
 
         DocumentRoot PATH
-        <Directory /web>
+        <Directory />
                 Options FollowSymLinks
                 AllowOverride All
         </Directory>
