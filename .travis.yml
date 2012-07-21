@@ -10,6 +10,6 @@ before_script:
   - cd bdd
   - pear channel-discover pear.drush.org
   - sudo pear install drush/drush
-  - drush make event_calendar.make drupal
+  - /usr/bin/drush make event_calendar.make drupal
 
 script: php behat.phar 
