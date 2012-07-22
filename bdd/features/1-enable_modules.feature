@@ -3,14 +3,14 @@ Feature: Enable modules
     As a site administrator
     I need to be able to enable modules 
 
-Background: 
-  Given I am on "/user"
+  Background: 
+    Given I am on "/user"
     And I fill in "Username" with "admin"
     And I fill in "Password" with "changeme"
     And I press "Log in"
 
-Scenario: Enable the modules
-  Given I disable Overlay
+  Scenario: Enable the modules
+    Given I disable Overlay
     And I am on "/"
     And I follow "Modules"
     And I check "Colors"
@@ -28,6 +28,6 @@ Scenario: Enable the modules
     And I check "FullCalendar" 
     And I check "FullCalendar Colors"
     And I check "Colorbox"
-  When I press "Save configuration"
-  Then I should see "The configuration options have been saved."
-  Then show last response
+    When I press "Save configuration"
+    Then I should see "The configuration options have been saved."
+    Then show last response

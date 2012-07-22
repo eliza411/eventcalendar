@@ -1,7 +1,7 @@
 Feature: Install Drupal
   In order to learn about Drupal
-  As a site builder
-  I need to install Drupal
+    As a site builder
+    I need to install Drupal
 
 @javascript
   Scenario: Standard Install
