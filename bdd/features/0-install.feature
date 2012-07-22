@@ -13,12 +13,11 @@ Feature: Install Drupal
     And I check "English (built-in)"
     And I press "Save and continue" 
     And I fill in the following:
-    |Database name    |mydb|
-    |Database username|mydb|
-    |Database password|mydb|
+    | Database name     | mydb |
+    | Database username | mydb |
+    | Database password | mydb |
     And I press "Save and continue"
     And wait "10" seconds
-    And show last response
     And I fill in the following:
     | Site name          | Events                          |
     | Site e-mail address| melissa+events@opensourcery.com |
