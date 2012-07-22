@@ -3,14 +3,14 @@ Feature: Add a an upcoming event block
     As a site administrator
     In want to use views to provide an Upcoming event block on the homep age
 
-Background:
-  Given I am on "/user"
+  Background:
+    Given I am on "/user"
     And I fill in "Username" with "admin"
     And I fill in "Password" with "changeme"
     And I press "Log in"
 
-Scenario: Create a block 
-  Given I am on "/"
+  Scenario: Create a block 
+    Given I am on "/"
     And I follow "Structure"
     And I follow "Views"
     And I follow "Add new view"
@@ -23,13 +23,13 @@ Scenario: Create a block
     And I uncheck "Create a page"
     And I check "Create a block"
     And I select "HTML list" from "Display format"
-#    And wait "1" seconds
+  #    And wait "1" seconds
     And I press "Save & exit"
     Then I should not see "The machine-readable name is already in use."
     And I should see "Your view was saved."
 
-@javascript
-Scenario: Add fields to the block
+  @javascript
+  Scenario: Add fields to the block
     Given I am on "/admin/structure/views/view/upcoming_events/edit"
     #fix-dirs
     And I follow "views-add-field"
@@ -61,10 +61,10 @@ Scenario: Add fields to the block
     And I press "Apply (all displays)"
     And I press "Save"
   Then I should see "The view Upcoming events has been saved."
-    
-@javascript
-Scenario: Admin place block
-  Given I am on "/"
+      
+  @javascript
+  Scenario: Admin place block
+    Given I am on "/"
     And I follow "Structure"
     And I follow "Blocks"
     And I should see "View: Upcoming events"
@@ -77,8 +77,8 @@ Scenario: Admin place block
     <front>
     calendar/*
     """ 
-  When I press "Save block"
-  Then I should see "The block configuration has been saved"
-   
+    When I press "Save block"
+    Then I should see "The block configuration has been saved"
+     
 
 
