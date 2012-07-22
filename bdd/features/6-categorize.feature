@@ -3,15 +3,15 @@ Feature: Add a calendar
     As a site administrator
     In want to use views to provide a calendar
 
-Background:
-  Given I am on "/user"
+  Background:
+    Given I am on "/user"
     And I fill in "Username" with "admin"
     And I fill in "Password" with "changeme"
     And I press "Log in"
 
-@javacript
-Scenario: Create a FullCalendar
-  Given I am on homepage
+  @javacript
+  Scenario: Create a FullCalendar
+    Given I am on homepage
     And I follow "Structure"
     And I follow "Views"
     And I follow "Add new view"
@@ -33,13 +33,13 @@ Scenario: Create a FullCalendar
     And I press "Add and configure fields"
     And I uncheck "Create a label"
     And I press "Apply"
-  When I press "Save"
-  Then I should see "The view Calendar has been saved."
+    When I press "Save"
+    Then I should see "The view Calendar has been saved."
 
-Scenario: Lets be sure it's where we think it is
-  Given I am on homepage
-  When I follow "Calendar"
-  Then I should see "Month"
+  Scenario: Lets be sure it's where we think it is
+    Given I am on homepage
+    When I follow "Calendar"
+    Then I should see "Month"
     And I should see "Week" 
- 
-    
+   
+      
