@@ -2,31 +2,29 @@
 
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Behat\MinkExtension\Context\MinkContext;
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Context\ClosuredContextInterface;
+use Behat\Behat\Context\TranslatedContextInterface;
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\Process\Process;
 
 #require 'vendor/autoload.php';
-require_once 'PHPUnit/Autoload.php';
-require_once 'PHPUnit/Framework/Assert/Functions.php';
+#require_once 'PHPUnit/Autoload.php';
+#require_once 'PHPUnit/Framework/Assert/Functions.php';
 
-class FeatureContext extends MinkContext
-{
-    public function __construct(array $parameters) {
-    }
+class FeatureContext extends MinkContext {
+  public function __construct(array $parameters) {
+  }
 
     /** @BeforeFeature */
     public static function prepareForTheFeature() {
-    // clean database or do other preparation stuff
+      // clean database or do other preparation stuff
     }
 
-
     /**
-    * @Given /^I am on the homepage$/
+    * @Given /^(?:|that) I am on the homepage$/
     */
     public function iAmOnTheHomepage() {
       $this->getSession()->visit($this->locatePath('/'));
@@ -45,7 +43,6 @@ class FeatureContext extends MinkContext
     }
 
   }
-
 
   /**
    * @When /^I select the radio button "([^"]*)" with the id "([^"]*)"$/
@@ -66,10 +63,9 @@ class FeatureContext extends MinkContext
   }
 
   /**
-   * @Given /^Database "([^"]*)" is empty$/
+   * @Given /^an empty database (?:named|called) "([^"]*)"$/
    */
-  public function databaseIsEmpty($database_name)
-  {
+  public function anEmptyDatabaseNamed($database_name) {
     $process = new Process("mysqladmin drop -f $database_name && mysqladmin create $database_name");
     $process->setTimeout(3600);
     $process->run();
@@ -79,10 +75,9 @@ class FeatureContext extends MinkContext
   }
 
   /**
-   * @Given /^Clean settings file$/
+   * @Given /^a clean settings file$/
    */
-  public function cleanSettingsFile()
-  {
+  public function aCleanSettingsFile() {
     $process = new Process("cp ../drupal/sites/default/default.settings.php ../drupal/sites/default/settings.php");
     $process->setTimeout(3600);
     $process->run();
@@ -100,28 +95,26 @@ class FeatureContext extends MinkContext
   /**
    * @Then /^wait "(\d+)" seconds$/
    */
-  public function waitSeconds($seconds)
-  {
-      $this->getSession()->wait($seconds * 1000);
+  public function waitSeconds($seconds) {
+    $this->getSession()->wait($seconds * 1000);
   }
+
   /**
    * @Given /^I disable Overlay$/
    */
-  public function iDisableOverlay()
-  {
-  $process = new Process("drush @seven dis overlay -y");
-  $process->setTimeout(3600);
-  $process->run();
+  public function iDisableOverlay() {
+    $process = new Process("drush @seven dis overlay -y");
+    $process->setTimeout(3600);
+    $process->run();
   if (!$process->isSuccessful()) {
     throw new RuntimeException("Couldn't disable overlay - " . $process->getErrorOutput());
     }
   }
+
   /**
    * @Given /^I fill in "([^"]*)" with$/
    */
-   public function iFillInWith($content, PyStringNode $paths)
-  {
+   public function iFillInWith($content, PyStringNode $paths) {
       $this->fillField($content, $paths->getRaw());
-
   }
 }
