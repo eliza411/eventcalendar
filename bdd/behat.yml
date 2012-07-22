@@ -4,7 +4,7 @@ default:
   extensions:
     mink_extension.phar:
       mink_loader: 'mink.phar'
-      base_url:    'http://localhost/'
+      base_url:    'http://events.alta.everydaydrupal.com/'
       goutte:      ~
       selenium2:   ~
       show_cmd: 'firefox %s'

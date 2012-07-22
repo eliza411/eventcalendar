@@ -10,12 +10,12 @@ before_script:
   - curl http://ftp.drupal.org/files/projects/drush-7.x-5.4.tar.gz | tar xzf -  
   - drush/drush make event_calendar.make drupal 
   - chmod -R a+rwX drupal 
-  - sudo apt-get -y install libapache2-mod-php5 php5-curl php5-gd php5-mysql libgd2-xpm
-  - sudo a2enmod rewrite php5
+  - sudo apt-get -y install libapache2-mod-php5 php5-curl php5-gd php5-mysql libgd2-xpm > /dev/null
+  - sudo a2enmod rewrite > /dev/null
   - sed -e "s,PATH,`pwd`/drupal,g" default | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo service apache2 restart
-  - cd bdd
   - mysql -u root -e 'create database mydb;'
   - mysql -u root -e 'grant all on mydb.* to mydb;'
+  - cd bdd
 
 script: php behat.phar 

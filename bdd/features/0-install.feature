@@ -17,14 +17,15 @@ Feature: Install Drupal
     |Database username|mydb|
     |Database password|mydb|
     And I press "Save and continue"
-    Then wait "20" seconds
+    And wait "10" seconds
+    And show last response
     And I fill in the following:
-    |Site name          |Events                         |
-    |Site e-mail address|melissa+events@opensourcery.com|
-    |Username           |admin                          |
-    |E-mail address     |melissa+events@opensourcery.com|
-    |Password           |changeme                       |
-    |Confirm password   |changeme                       |
+    | Site name          | Events                          |
+    | Site e-mail address| melissa+events@opensourcery.com |
+    | Username           | admin                           |
+    | E-mail address     | melissa+events@opensourcery.com |
+    | Password           | changeme                        |
+    | Confirm password   | changeme                        |
     And I uncheck "Receive e-mail notifications"
     And I press "Save and continue"
     Then I should see "Visit your new site"
