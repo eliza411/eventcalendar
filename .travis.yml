@@ -2,11 +2,6 @@ language: php
 php:
   - 5.3
 
-mysql:
-  database: mydb
-  username: mydb
-  encoding: utf8
-
 before_script:
   - curl http://ftp.drupal.org/files/projects/drush-7.x-5.4.tar.gz | tar xzf -  
   - drush/drush make event_calendar.make web 
@@ -16,4 +11,6 @@ before_script:
   - sed -e "s,PATH,`pwd`/web,g" default | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo service apache2 restart
   - cd bdd
+  - mysql -e 'create database mydb;'
+  - mysql -e 'grant all on mydb.* to mydb;'
 script: php behat.phar 
