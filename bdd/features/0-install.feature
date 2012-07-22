@@ -3,7 +3,6 @@ Feature: Install Drupal
   As a site builder
   I need to install Drupal
 
-  @javascript
   Scenario: Standard Install
     Given an empty database called "mydb"
     And a clean settings file
@@ -17,7 +16,7 @@ Feature: Install Drupal
     |Database username|mydb|
     |Database password|mydb|
     And I press "Save and continue"
-    Then wait "10" seconds
+ #   Then wait "10" seconds
     And I fill in the following:
     |Site name          |Events                         |
     |Site e-mail address|melissa+events@opensourcery.com|
