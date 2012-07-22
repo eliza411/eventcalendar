@@ -18,30 +18,29 @@ class FeatureContext extends MinkContext {
   public function __construct(array $parameters) {
   }
 
-    /** @BeforeFeature */
-    public static function prepareForTheFeature() {
-      // clean database or do other preparation stuff
-    }
+  /** @BeforeFeature */
+  public static function prepareForTheFeature() {
+    // clean database or do other preparation stuff
+  }
 
-    /**
-    * @Given /^(?:|that) I am on the homepage$/
-    */
-    public function iAmOnTheHomepage() {
-      $this->getSession()->visit($this->locatePath('/'));
-    }
+  /**
+  * @Given /^(?:|that) I am on the homepage$/
+  */
+  public function iAmOnTheHomepage() {
+    $this->getSession()->visit($this->locatePath('/'));
+  }
 
-    /**
-    * @Then /^I should see the text "([^"]*)"$/
-    */
-    public function IShouldSeeTheText($text) {
-      $element = $this->getSession()->getPage();
-      $error = $element->find('css', '.error');
-      if (!empty($error)) {
-        throw new Exception($error->getText());
-      } else {
-        $this->assertSession()->pageTextContains($this->fixStepArgument($text));
+  /**
+  * @Then /^I should see the text "([^"]*)"$/
+  */
+  public function IShouldSeeTheText($text) {
+    $element = $this->getSession()->getPage();
+    $error = $element->find('css', '.error');
+    if (!empty($error)) {
+      throw new Exception($error->getText());
+    } else {
+      $this->assertSession()->pageTextContains($this->fixStepArgument($text));
     }
-
   }
 
   /**
