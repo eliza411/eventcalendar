@@ -1,7 +1,7 @@
 Feature: Add a calendar
   In order to display events in a calendar
-    As a site administrator
-    In want to use views to provide a calendar
+  As a site administrator
+  In want to use views to provide a calendar
 
   Background:
     Given I am on "/user"

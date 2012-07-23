@@ -1,7 +1,7 @@
 Feature: Configure date and time for site purprose
   In order to simply publication of dates for site editors
-    As a site administrator
-    I want to configure sensible defaults
+  As a site administrator
+  I want to configure sensible defaults
 
   Background: 
     Given I am on "/user"

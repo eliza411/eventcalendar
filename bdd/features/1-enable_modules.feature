@@ -1,7 +1,7 @@
 Feature: Enable modules
   In order to extend the functionality of Drupal core
-    As a site administrator
-    I need to be able to enable modules 
+  As a site administrator
+  I need to be able to enable modules 
 
   Background: 
     Given I am on "/user"
@@ -10,9 +10,9 @@ Feature: Enable modules
     And I press "Log in"
 
   Scenario: Enable the modules
-    Given I disable Overlay
-    And I am on "/"
+    Given I am on "/"
     And I follow "Modules"
+    And I uncheck "Overlay"
     And I check "Colors"
     And I check "Views"
     And I check "Token"
@@ -30,4 +30,3 @@ Feature: Enable modules
     And I check "Colorbox"
     When I press "Save configuration"
     Then I should see "The configuration options have been saved."
-    Then show last response

@@ -1,7 +1,7 @@
 Feature: Create a way to enter events
   In order to support content editors
-    As a site administrator
-    I need to create a way to enter events with sensible defaults
+  As a site administrator
+  I need to create a way to enter events with sensible defaults
 
   Background:
     Given I am on "/user"

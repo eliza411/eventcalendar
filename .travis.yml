@@ -14,9 +14,8 @@ before_script:
   - sudo a2enmod rewrite > /dev/null
   - sed -e "s,PATH,`pwd`/drupal,g" default | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo service apache2 restart
-#  - mysql -u root -e 'drop database mydb;' 2> /dev/null
   - mysql -u root -e 'create database mydb;'
   - mysql -u root -e "grant all on mydb.* to mydb identified by 'mydb';"
   - cd bdd
 
-script: php behat.phar features/0-install.feature
+script: php behat.phar --tags='~@wip' 

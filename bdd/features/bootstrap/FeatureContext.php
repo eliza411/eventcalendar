@@ -102,7 +102,7 @@ class FeatureContext extends MinkContext {
    * @Given /^I disable Overlay$/
    */
   public function iDisableOverlay() {
-    $process = new Process("drush @seven dis overlay -y");
+    $process = new Process("drush dis overlay -y");
     $process->setTimeout(3600);
     $process->run();
   if (!$process->isSuccessful()) {

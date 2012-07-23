@@ -1,7 +1,8 @@
+@wip
 Feature: Add a an upcoming event block 
   In order to make sure visitors don't miss out on events
-    As a site administrator
-    In want to use views to provide an Upcoming event block on the homep age
+  As a site administrator
+  In want to use views to provide an Upcoming event block on the homep age
 
   Background:
     Given I am on "/user"
@@ -61,8 +62,8 @@ Feature: Add a an upcoming event block
     And I press "Apply (all displays)"
     And I press "Save"
   Then I should see "The view Upcoming events has been saved."
-      
-  @javascript
+  
+  @javascript 
   Scenario: Admin place block
     Given I am on "/"
     And I follow "Structure"
