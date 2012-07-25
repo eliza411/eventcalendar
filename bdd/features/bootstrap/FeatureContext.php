@@ -65,7 +65,7 @@ class FeatureContext extends MinkContext {
    * @Given /^an empty database (?:named|called) "([^"]*)"$/
    */
   public function anEmptyDatabaseNamed($database_name) {
-    $process = new Process("mysqladmin drop -f $database_name && mysqladmin create $database_name");
+    $process = new Process("mysql -e 'DROP DATABASE IF EXISTS $database_name; CREATE DATABASE $database_name;'");
     $process->setTimeout(3600);
     $process->run();
     if (!$process->isSuccessful()) {
