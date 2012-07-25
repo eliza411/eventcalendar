@@ -92,7 +92,7 @@ class FeatureContext extends MinkContext {
   }
 
   /**
-   * @Then /^wait "(\d+)" seconds$/
+   * @Then /^(?:|I )wait "(\d+)" second(?:|s)$/
    */
   public function waitSeconds($seconds) {
     $this->getSession()->wait($seconds * 1000);
