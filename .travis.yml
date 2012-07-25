@@ -14,6 +14,7 @@ before_script:
   - sudo a2enmod rewrite > /dev/null
   - sed -e "s,PATH,`pwd`/drupal,g" default | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo service apache2 restart
+  - mysql -u root -e 'DROP DATABASE IF EXISTS mydb;'
   - mysql -u root -e 'create database mydb;'
   - mysql -u root -e "grant all on mydb.* to mydb identified by 'mydb';"
   - cd bdd
