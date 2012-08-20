@@ -5,7 +5,7 @@ Ingredients
 |sandbox-setup|
 
 Staple
-========
+======
 #. http://drupal.org/project/ctools - Chaos Tools Suite: Enable Chaos tools
 #. http://drupal.org/project/views - Views: Enable Views and Views UI
 #. http://drupal.org/project/date - Date: Enable Date, Date API, Date Popup
@@ -545,15 +545,15 @@ Set permissions
 Set permissions as follows:
 
 
-============================= =========== ====== =============
-Permission                    Contributor Editor Administrator
-============================= =========== ====== =============
-Event: Create new content     [√]         [√]    [√]
-Event: Edit own content       [√]         [ ]    [√]
-Event: Edit any content       [ ]         [√]    [√]
-Event: Delete own content     [√]         [ ]    [√]  
-Event: Delete any content     [ ]         [√]    [√]
-============================= =========== ====== =============
+============================= ========= ============= =========== ====== =============
+Permission                    Anonymous Authenticated Contributor Editor Administrator
+============================= ========= ============= =========== ====== =============
+Event: Create new content     [ ]       [ ]           [√]         [√]    [√]
+Event: Edit own content       [ ]       [ ]           [√]         [ ]    [√]
+Event: Edit any content       [ ]       [ ]           [ ]         [√]    [√]
+Event: Delete own content     [ ]       [ ]           [√]         [ ]    [√]  
+Event: Delete any content     [ ]       [ ]           [ ]         [√]    [√]
+============================= ========= ============= =========== ====== =============
 
 Test Author privileges
 ======================
