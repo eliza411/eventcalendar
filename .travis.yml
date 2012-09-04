@@ -16,7 +16,7 @@ before_script:
   - sudo service apache2 restart
   - mysql -u root -e 'DROP DATABASE IF EXISTS mydb;'
   - mysql -u root -e 'create database mydb;'
-  - mysql -u root -e "grant all on mydb.* to mydb identified by 'mydb';"
+  - mysql -u root -e "grant all on mydb.* to mydb@localhost identified by 'mydb';"
   - cd bdd
 
 script: php behat.phar --tags='~@wip' 
